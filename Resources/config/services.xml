@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+<!--
+    <parameters>
+        <parameter key="sweet_gallery.response">Symfony\Component\HttpFoundation\JsonResponse</parameter>
+        <parameter key="sweet_gallery.gallery.controller">Sweet\GalleryBundle\Controller\GalleryController</parameter>
+    </parameters>
+
+    <services>
+        <service id="sweet_gallery_response" class="%sweet_gallery.response%" />
+        <service id="sweet_gallery.controller.gallery" class="%sweet_gallery.gallery.controller%">
+            <argument type="service" id="sweet_gallery_response"></argument>
+            <argument type="service" id="doctrine"></argument>
+        </service>
+    </services>
+-->
+
+</container>
