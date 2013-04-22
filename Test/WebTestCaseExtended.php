@@ -1,6 +1,6 @@
 <?php
 
-namespace Sweet\GalleryBundle\Tests;
+namespace Sweet\GalleryBundle\Test;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -9,9 +9,14 @@ require_once(__DIR__ . "/../../../../app/AppKernel.php");
 /**
  * Base class for tests, resets database
  */
-class BaseController extends WebTestCase
+class WebTestCaseExtended extends WebTestCase
 {
-    protected $_application;
+    protected $application;
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
 
     /**
      * Set up tests
@@ -20,8 +25,13 @@ class BaseController extends WebTestCase
     {
         $kernel = new \AppKernel("test", true);
         $kernel->boot();
-        $this->_application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
-        $this->_application->setAutoExit(false);
+        $this->application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
+        $this->application->setAutoExit(false);
+
+        $this->em = $this->getContainer()
+                ->get('doctrine')
+                ->getManager();
+
         $this->runConsole("doctrine:schema:drop", array("--force" => true));
         $this->runConsole("doctrine:schema:create");
         $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../DataFixtures"));
@@ -38,7 +48,7 @@ class BaseController extends WebTestCase
         $options["-e"] = "test";
         $options["-q"] = null;
         $options = array_merge($options, array('command' => $command));
-        $this->_application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
+        $this->application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
     }
 
     /**
@@ -46,6 +56,15 @@ class BaseController extends WebTestCase
      */
     public function getContainer()
     {
-        return $this->_application->getKernel()->getContainer();
+        return $this->application->getKernel()->getContainer();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->em->close();
     }
 }

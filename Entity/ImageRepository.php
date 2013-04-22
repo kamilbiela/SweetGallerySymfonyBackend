@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class ImageRepository extends EntityRepository
 {
+    /**
+     * Find all images in given gallery
+     *
+     * @param int $galleryId
+     * 
+     * @return array|null
+     */
+    public function findAllInGallery($galleryId)
+    {
+        return $this->findByGallery($galleryId);
+    }
 }

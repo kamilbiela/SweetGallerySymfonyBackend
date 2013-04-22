@@ -8,27 +8,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * Controller for handling galleries requests
+ * Controller for handling image requests
  *
- * @Route("/galleries")
  */
-class GalleryController extends Controller
+class ImageController extends Controller
 {
     /**
-     * @Route("")
+     * @param int $galleryId
+     *
      * @Method({"GET"})
+     * @Route("/galleries/{galleryId}/images")
      * @return JsonResponse
      */
-    public function getIndexAction()
+    public function getGalleryImagesAction($galleryId)
     {
-        $galleries = $this->getDoctrine()
-                ->getRepository('SweetGalleryBundle:Gallery')
-                ->findAll();
+        $images = $this->getDoctrine()->getRepository('SweetGalleryBundle:Image')
+                ->findAllInGallery($galleryId);
 
         $data = array();
-
-        foreach ($galleries as $gallery) {
-            $data[] = $gallery->toArrayList();
+        foreach ($images as $image) {
+            $data[] = $image->toArray();
         }
 
         return new JsonResponse($data);
