@@ -106,7 +106,7 @@ class Gallery
     }
 
     /**
-     * Get Gallery representation for list view types (return only one image in images key)
+     * Get Gallery array representation for list view types (return only one image in images key)
      *
      * @return array
      */
@@ -124,6 +124,11 @@ class Gallery
         );
     }
 
+    /**
+     * Get Gallery array representation for single views (with all images)
+     *
+     * @return array
+     */
     public function toArray()
     {
         $images = $this->getImages();

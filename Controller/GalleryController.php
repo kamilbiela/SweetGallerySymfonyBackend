@@ -35,6 +35,8 @@ class GalleryController extends Controller
     }
 
     /**
+     * @param int $id
+     * 
      * @Route("/{id}")
      * @Method({"GET"})
      * @return JsonResponse
@@ -48,4 +50,26 @@ class GalleryController extends Controller
         return new JsonResponse($gallery->toArray());
     }
 
+    /**
+     * @param int $id
+     * 
+     * @Route("/{id}")
+     * @Method({"POST"})
+     * @return JsonResponse
+     */
+    public function postEditGalleryAction($id)
+    {
+        /* @var $gallery \Sweet\GalleryBundle\Entity\Gallery */
+        $gallery = $this->getDoctrine()
+                ->getRepository('SweetGalleryBundle:Gallery')
+                ->find($id);
+
+        $data = json_decode($this->getRequest()->getContent(), true);
+
+        $gallery->setName($data['name']);
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse(array('status' => 'success'));
+    }
 }

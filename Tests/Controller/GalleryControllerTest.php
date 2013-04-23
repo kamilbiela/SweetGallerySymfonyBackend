@@ -38,4 +38,27 @@ class GalleryControllerTest extends WebTestCaseExtended
         $this->assertArrayHasKey('images', $response, 'Should have iamges key');
         $this->assertCount(3, $response['images'], 'Should have 3 images in response');
     }
+
+    /**
+     * @covers \Sweet\GalleryBundle\Controller\GalleryController::get
+     */
+    public function testPostEditGallery()
+    {
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            '/galleries/3',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            json_encode(array(
+                'name'  => 'TESTNAME'
+            ))
+        );
+
+        $gallery = $this->em->getRepository('SweetGalleryBundle:Gallery')
+                ->find(3);
+
+        $this->assertEquals('TESTNAME', $gallery->getName(), 'Gallery name should change');
+    }
 }
