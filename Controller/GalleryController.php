@@ -33,4 +33,19 @@ class GalleryController extends Controller
 
         return new JsonResponse($data);
     }
+
+    /**
+     * @Route("/{id}")
+     * @Method({"GET"})
+     * @return JsonResponse
+     */
+    public function getGalleryAction($id)
+    {
+        $gallery = $this->getDoctrine()
+                ->getRepository('SweetGalleryBundle:Gallery')
+                ->find($id);
+
+        return new JsonResponse($gallery->toArray());
+    }
+
 }

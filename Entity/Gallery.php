@@ -105,7 +105,6 @@ class Gallery
         return $this->name;
     }
 
-
     /**
      * Get Gallery representation for list view types (return only one image in images key)
      *
@@ -122,6 +121,22 @@ class Gallery
             'id'     => $this->getId(),
             'name'   => $this->getName(),
             'images' => $image ? array($image) : array(),
+        );
+    }
+
+    public function toArray()
+    {
+        $images = $this->getImages();
+
+        $imagesArray = array();
+        foreach ($images as $image) {
+            $imagesArray[] = $image->toArray();
+        }
+
+        return array(
+            'id'     => $this->getId(),
+            'name'   => $this->getName(),
+            'images' => $imagesArray,
         );
     }
 }
