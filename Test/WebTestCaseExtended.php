@@ -69,9 +69,9 @@ class WebTestCaseExtended extends WebTestCase
     }
 
     /**
-     * @param Symfony\Bundle\FrameworkBundle\Client
-     * @param string $url
-     * @param array $data
+     * @param Symfony\Bundle\FrameworkBundle\Client $client
+     * @param string                                $url
+     * @param array                                 $data
      *
      * @return Symfony\Bundle\FrameworkBundle\Client 
      */

@@ -48,7 +48,7 @@ class GalleryControllerTest extends WebTestCaseExtended
         $this->requestPost($client, '/galleries/3', array(
             'name'  => 'TESTNAME'
         ));
-        
+
         $gallery = $this->em->getRepository('SweetGalleryBundle:Gallery')
                 ->find(3);
 

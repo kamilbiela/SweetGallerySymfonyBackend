@@ -95,6 +95,8 @@ class GalleryController extends Controller
     }
 
     /**
+     * @param int $id
+     * 
      * @Route("/{id}")
      * @Method({"DELETE"})
      * @return JsonSuccessResponse
