@@ -67,4 +67,26 @@ class WebTestCaseExtended extends WebTestCase
         parent::tearDown();
         $this->em->close();
     }
+
+    /**
+     * @param Symfony\Bundle\FrameworkBundle\Client
+     * @param string $url
+     * @param array $data
+     *
+     * @return Symfony\Bundle\FrameworkBundle\Client 
+     */
+    protected function requestPost($client, $url, $data)
+    {
+        $client->request(
+            'POST',
+            $url,
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            json_encode($data)
+        );
+
+        return $client;
+    }
+
 }

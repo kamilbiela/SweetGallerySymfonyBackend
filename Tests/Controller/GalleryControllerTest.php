@@ -40,25 +40,49 @@ class GalleryControllerTest extends WebTestCaseExtended
     }
 
     /**
-     * @covers \Sweet\GalleryBundle\Controller\GalleryController::get
+     * @covers \Sweet\GalleryBundle\Controller\GalleryController::postEditGalleryAction
      */
     public function testPostEditGallery()
     {
         $client = static::createClient();
-        $client->request(
-            'POST',
-            '/galleries/3',
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
-            json_encode(array(
-                'name'  => 'TESTNAME'
-            ))
-        );
-
+        $this->requestPost($client, '/galleries/3', array(
+            'name'  => 'TESTNAME'
+        ));
+        
         $gallery = $this->em->getRepository('SweetGalleryBundle:Gallery')
                 ->find(3);
 
         $this->assertEquals('TESTNAME', $gallery->getName(), 'Gallery name should change');
+    }
+
+    /**
+     * @covers \Sweet\GalleryBundle\Controller\GalleryController::postAddGalleryAction
+     */
+    public function testPostAddGallery()
+    {
+        $client = static::createClient();
+        $this->requestPost($client, '/galleries', array(
+            'name'  => 'NEW GALLERY'
+        ));
+
+        $gallery = $this->em->getRepository('SweetGalleryBundle:Gallery')
+                ->find(6);
+
+        $this->assertNotNull($gallery);
+        $this->assertEquals('NEW GALLERY', $gallery->getName(), 'Should find new gallery');
+    }
+
+    /**
+     * @covers \Sweet\GalleryBundle\Controller\GalleryController::deleteGalleryAction
+     */
+    public function testDeleteGalleryAction()
+    {
+        $client = static::createClient();
+        $client->request('DELETE', '/galleries/3');
+
+        $gallery = $this->em->getRepository('SweetGalleryBundle:Gallery')
+                ->find(3);
+
+        $this->assertNull($gallery);
     }
 }
