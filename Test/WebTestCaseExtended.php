@@ -3,6 +3,8 @@
 namespace Sweet\GalleryBundle\Test;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
 require_once(__DIR__ . "/../../../../app/AppKernel.php");
 
@@ -12,6 +14,8 @@ require_once(__DIR__ . "/../../../../app/AppKernel.php");
 class WebTestCaseExtended extends WebTestCase
 {
     protected $application;
+    protected $uploadsDirExists = false;
+    protected $uploadsDirChmod = false;
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -35,6 +39,8 @@ class WebTestCaseExtended extends WebTestCase
         $this->runConsole("doctrine:schema:drop", array("--force" => true));
         $this->runConsole("doctrine:schema:create");
         $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../DataFixtures"));
+
+        $this->createUploadDir();
     }
 
     /**
@@ -66,6 +72,7 @@ class WebTestCaseExtended extends WebTestCase
     {
         parent::tearDown();
         $this->em->close();
+        $this->removeUploadDir();
     }
 
     /**
@@ -89,4 +96,57 @@ class WebTestCaseExtended extends WebTestCase
         return $client;
     }
 
+    /**
+     * Get file fixtures dir
+     * @return string
+     */
+    protected function getFileFixturePath()
+    {
+        $d = DIRECTORY_SEPARATOR;
+
+        return realpath(__DIR__ ."{$d}..{$d}Tests{$d}FileFixture");
+    }
+
+    /**
+     * Get file fixture as UploadedFile
+     * @param string $filename
+     * 
+     * @return \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+    protected function getFileFixture($filename)
+    {
+        $filepath = $this->getFileFixturePath() . DIRECTORY_SEPARATOR . $filename;
+
+        return new UploadedFile(
+            $filepath,
+            $filename,
+            MimeTypeGuesser::getInstance()->guess($filepath),
+            filesize($filepath)
+        );
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads';
+    }
+
+    protected function createUploadDir()
+    {
+        if (!is_dir($this->getUploadDir())) {
+            mkdir($this->getUploadDir(), 0777);
+        } else {
+            $this->uploadsDirExists = true;
+            $this->uploadsDirChmod = substr(sprintf('%o', fileperms($this->getUploadDir())), -4);
+            chmod($this->getUploadDir(), 0777);
+        }
+    }
+
+    protected function removeUploadDir()
+    {
+        if ($this->uploadsDirExists) {
+            chmod($this->getUploadDir(), $this->uploadsDirChmod);
+        } else {
+            rmdir($this->getUploadDir());
+        }
+    }
 }

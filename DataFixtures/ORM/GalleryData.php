@@ -26,7 +26,7 @@ class GalleryData implements FixtureInterface
                 $image = new Image();
                 $image->setName('image '. $j);
                 $image->setGallery($gallery);
-                $image->setFilename('placeholder.png');
+                $image->setFile('placeholder.png');
 
                 $gallery->addImage($image);
             }

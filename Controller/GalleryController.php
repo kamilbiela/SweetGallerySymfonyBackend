@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Sweet\GalleryBundle\Entity\Gallery;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller for handling galleries requests
@@ -49,6 +50,10 @@ class GalleryController extends Controller
                 ->getRepository('SweetGalleryBundle:Gallery')
                 ->find($id);
 
+        if (!$gallery) {
+            return new NotFoundHttpException();
+        }
+
         return new JsonResponse($gallery->toArray());
     }
 
@@ -65,6 +70,10 @@ class GalleryController extends Controller
         $gallery = $this->getDoctrine()
                 ->getRepository('SweetGalleryBundle:Gallery')
                 ->find($id);
+
+        if (!$gallery) {
+            return new NotFoundHttpException();
+        }
 
         $data = json_decode($this->getRequest()->getContent(), true);
 

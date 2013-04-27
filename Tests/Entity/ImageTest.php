@@ -19,7 +19,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('id', $result, 'has id');
         $this->assertArrayHasKey('name', $result, 'has name');
-        $this->assertArrayHasKey('filename', $result, 'has filename');
+        $this->assertArrayHasKey('file', $result, 'has filename');
 
         $this->assertCount(3, $result, 'Should have exact number of array keys');
     }

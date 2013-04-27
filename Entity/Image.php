@@ -3,13 +3,18 @@
 namespace Sweet\GalleryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use \Sweet\GalleryBundle\Entity\Gallery;
+use Sweet\GalleryBundle\Entity\Gallery;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Image
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Sweet\GalleryBundle\Entity\ImageRepository")
+ * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Uploadable(path="uploads", allowOverwrite=false, appendNumber=true, filenameGenerator="ALPHANUMERIC")
  */
 class Image
 {
@@ -26,15 +31,19 @@ class Image
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="filename", type="string", length=255)
+     * @ORM\Column(name="file", type="string", length=255)
+     * @Gedmo\UploadableFilePath
+     * @Assert\Image()
+     * @Assert\NotBlank()
      */
-    private $filename;
+    private $file;
 
 
     /**
@@ -103,13 +112,13 @@ class Image
     /**
      * Set filename
      *
-     * @param string $filename
+     * @param string $file
      * 
      * @return Image
      */
-    public function setFilename($filename)
+    public function setFile($file)
     {
-        $this->filename = $filename;
+        $this->file = $file;
 
         return $this;
     }
@@ -119,9 +128,9 @@ class Image
      *
      * @return string 
      */
-    public function getFilename()
+    public function getFile()
     {
-        return $this->filename;
+        return $this->file;
     }
 
     /**
@@ -134,8 +143,7 @@ class Image
         return array(
             'id'       => $this->getId(),
             'name'     => $this->getName(),
-            'filename' => $this->getFilename(),
+            'file'     => $this->getFile(),
         );
     }
-
 }
