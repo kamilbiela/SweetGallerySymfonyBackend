@@ -21,7 +21,7 @@ class JsonFormErrorResponse extends JsonResponse
         }
 
         parent::__construct(array(
-            'satus' => 'error',
+            'status' => 'error',
             'errors' => $errors
         ), $status, $headers);
     }
