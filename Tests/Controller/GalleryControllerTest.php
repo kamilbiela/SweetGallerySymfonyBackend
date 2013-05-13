@@ -35,7 +35,7 @@ class GalleryControllerTest extends WebTestCaseExtended
 
         $this->assertArrayHasKey('id', $response, 'Should have id key');
         $this->assertArrayHasKey('name', $response, 'Should have name key');
-        $this->assertArrayHasKey('images', $response, 'Should have iamges key');
+        $this->assertArrayHasKey('images', $response, 'Should have images key');
         $this->assertCount(3, $response['images'], 'Should have 3 images in response');
     }
 
@@ -52,6 +52,7 @@ class GalleryControllerTest extends WebTestCaseExtended
         $gallery = $this->em->getRepository('SweetGalleryBundle:Gallery')
                 ->find(3);
 
+        $this->assertNotNull($gallery);
         $this->assertEquals('TESTNAME', $gallery->getName(), 'Gallery name should change');
     }
 
@@ -69,7 +70,7 @@ class GalleryControllerTest extends WebTestCaseExtended
                 ->find(6);
 
         $this->assertNotNull($gallery);
-        $this->assertEquals('NEW GALLERY', $gallery->getName(), 'Should find new gallery');
+        $this->assertEquals('NEW GALLERY', $gallery->getName(), 'Should find newly created gallery in database');
     }
 
     /**

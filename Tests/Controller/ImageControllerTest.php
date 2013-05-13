@@ -23,6 +23,7 @@ class ImageControllerTest extends WebTestCaseExtended
         $this->assertArrayHasKey('id', $response[0], 'Should have id key');
         $this->assertArrayHasKey('name', $response[0], 'Should have name key');
         $this->assertArrayHasKey('file', $response[0], 'Should have file key');
+        $this->assertArrayHasKey('thumbnail', $response[0], 'Should have thumbnail key');
     }
 
     /**
@@ -37,6 +38,7 @@ class ImageControllerTest extends WebTestCaseExtended
         $this->assertArrayHasKey('id', $response, 'Should have id key');
         $this->assertArrayHasKey('name', $response, 'Should have name key');
         $this->assertArrayHasKey('file', $response, 'Should have file key');
+        $this->assertArrayHasKey('thumbnail', $response, 'Should have thumbnail key');
     }
 
     /**

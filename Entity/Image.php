@@ -35,6 +35,7 @@ class Image
      */
     private $name;
 
+
     /**
      * @var string
      *
@@ -44,6 +45,14 @@ class Image
      * @Assert\NotBlank()
      */
     private $file;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="thumbnail", type="string", length=255, nullable=true)
+     */
+    private $thumbnail;
 
 
     /**
@@ -141,9 +150,34 @@ class Image
     public function toArray()
     {
         return array(
-            'id'       => $this->getId(),
-            'name'     => $this->getName(),
-            'file'     => $this->getFile(),
+            'id'        => $this->getId(),
+            'name'      => $this->getName(),
+            'file'      => $this->getFile(),
+            'thumbnail' => $this->getThumbnail(),
         );
+    }
+
+    /**
+     * Set thumbnail
+     *
+     * @param string $thumbnail
+     *
+     * @return Image
+     */
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbnail
+     *
+     * @return string
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
     }
 }
