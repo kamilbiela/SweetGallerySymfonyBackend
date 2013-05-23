@@ -110,7 +110,7 @@ class Gallery
      *
      * @return array
      */
-    public function toArrayList()
+    public function toArray()
     {
         $image = $this->getMainImage();
         if ($image) {
@@ -120,28 +120,7 @@ class Gallery
         return array(
             'id'     => $this->getId(),
             'name'   => $this->getName(),
-            'images' => $image ? array($image) : array(),
-        );
-    }
-
-    /**
-     * Get Gallery array representation for single views (with all images)
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $images = $this->getImages();
-
-        $imagesArray = array();
-        foreach ($images as $image) {
-            $imagesArray[] = $image->toArray();
-        }
-
-        return array(
-            'id'     => $this->getId(),
-            'name'   => $this->getName(),
-            'images' => $imagesArray,
+            'thumbnail' => $image
         );
     }
 }

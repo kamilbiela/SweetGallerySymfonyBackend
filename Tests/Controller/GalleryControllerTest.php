@@ -19,9 +19,9 @@ class GalleryControllerTest extends WebTestCaseExtended
         $response = json_decode($client->getResponse()->getContent(), true);
 
         $this->assertCount(5, $response, 'Should return 5 galleries');
-        $this->assertArrayHasKey('images', $response[0], 'Should have images key');
-        $this->assertCount(0, $response[0]['images'], 'Should have 0 images in response');
-        $this->assertCount(1, $response[3]['images'], 'Should have 1 image in response');
+        $this->assertArrayHasKey('thumbnail', $response[0], 'Should have thumbnail key');
+        $this->assertNull($response[0]['thumbnail'], 'Should have 0 images in response');
+        $this->assertNotNull($response[1]['thumbnail'], 'Should have 1 image in response');
     }
 
     /**
@@ -35,8 +35,7 @@ class GalleryControllerTest extends WebTestCaseExtended
 
         $this->assertArrayHasKey('id', $response, 'Should have id key');
         $this->assertArrayHasKey('name', $response, 'Should have name key');
-        $this->assertArrayHasKey('images', $response, 'Should have images key');
-        $this->assertCount(3, $response['images'], 'Should have 3 images in response');
+        $this->assertArrayHasKey('thumbnail', $response, 'Should have thumbnail key');
     }
 
     /**

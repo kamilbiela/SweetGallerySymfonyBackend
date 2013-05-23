@@ -150,10 +150,11 @@ class Image
     public function toArray()
     {
         return array(
-            'id'        => $this->getId(),
-            'name'      => $this->getName(),
-            'file'      => $this->getFile(),
-            'thumbnail' => $this->getThumbnail(),
+            'id'         => $this->getId(),
+            'gallery_id' => $this->getGallery() ? $this->getGallery()->getId() : null,
+            'name'       => $this->getName(),
+            'file'       => $this->getFile(),
+            'thumbnail'  => $this->getThumbnail(),
         );
     }
 

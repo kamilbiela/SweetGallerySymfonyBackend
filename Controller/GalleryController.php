@@ -31,7 +31,7 @@ class GalleryController extends Controller
         $data = array();
 
         foreach ($galleries as $gallery) {
-            $data[] = $gallery->toArrayList();
+            $data[] = $gallery->toArray();
         }
 
         return new JsonResponse($data);
@@ -96,7 +96,7 @@ class GalleryController extends Controller
         $gallery = new Gallery();
         $gallery->setName($data['name']);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($gallery);
         $em->flush();
 
@@ -116,7 +116,7 @@ class GalleryController extends Controller
                 ->getRepository('SweetGalleryBundle:Gallery')
                 ->find($id);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($gallery);
         $em->flush();
 

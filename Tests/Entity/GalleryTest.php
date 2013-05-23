@@ -18,29 +18,10 @@ class GalleryTest extends \PHPUnit_Framework_TestCase
     {
         $gallery = new Gallery();
 
-        $result = $gallery->toArrayList();
+        $result = $gallery->toArray();
 
         $this->assertArrayHasKey('id', $result, 'has id');
         $this->assertArrayHasKey('name', $result, 'has name');
-        $this->assertArrayHasKey('images', $result, 'has images');
-    }
-
-    /**
-     * @covers Gallery::toArrayList
-     */
-    public function testToArrayListImages()
-    {
-        $gallery = new Gallery();
-        $result = $gallery->toArrayList();
-        $this->assertCount(0, $result['images'], 'Should not have any images');
-
-        $gallery->addImage(new Image());
-        $result = $gallery->toArrayList();
-        $this->assertCount(1, $result['images'], 'Should have one image');
-
-        $gallery->addImage(new Image())->addImage(new Image());
-
-        $result = $gallery->toArrayList();
-        $this->assertCount(1, $result['images'], 'Should have max one image');
+        $this->assertArrayHasKey('thumbnail', $result, 'has thumbnail');
     }
 }

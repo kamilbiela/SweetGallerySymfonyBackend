@@ -114,4 +114,34 @@ class ImageController extends Controller
 
         return new JsonResponse(array('status' => 'error'), 400);
     }
+
+    /**
+     * @param Request $request
+     * @param int     $galleryId
+     *
+     * @Method({"DELETE"})
+     * @Route("/images/{imageId}")
+     * @return JsonResponse
+     */
+    public function deleteImageAction(Request $request, $imageId)
+    {
+        /* @var $image Image */
+        $image = $this->getDoctrine()->getRepository('SweetGalleryBundle:Image')
+                ->find($imageId);
+
+        if (!$image) {
+            throw new NotFoundHttpException();
+        }
+
+        // let's cross fingers and delete files
+        $dir = $this->get('kernel')->getRootDir() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .'web' . DIRECTORY_SEPARATOR;
+        @unlink($dir . $image->getFile());
+        @unlink($dir . $image->getThumbnail());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($image);
+        $em->flush();
+
+        return new Response(null, 204);
+    }
 }
